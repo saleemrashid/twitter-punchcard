@@ -19,19 +19,27 @@ how frequently you tweet with other accounts.
 
 Make sure you have [Matplotlib](https://matplotlib.org/) installed.
 
-## Usage
-
 First, create a Twitter application and [generate an access
 token](https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens).
 
 ```bash
-# Configure the Twitter OAuth token
+# Configure the Twitter OAuth environment variables
 export TWITTER_CONSUMER_KEY="XXXXXXXXXXXXXXXXXXXXXXXXX"
 export TWITTER_CONSUMER_SECRET="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 export TWITTER_ACCESS_TOKEN="XXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 export TWITTER_ACCESS_TOKEN_SECRET="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-# Generate a PNG image for the authenticated user
+```
+
+## Usage
+
+The punchcards will be generated from the user's 3,200 most recent tweets (due
+to a Twitter API limitation). By default, the punchcard will be for the
+authenticated user.
+
+```bash
+# For the authenticated user
 ./punchcard.py -o punchcard.png
-# Generate a PNG image for @Twitter
+
+# For @Twitter
 ./punchcard.py -o twitter.png Twitter
 ```
