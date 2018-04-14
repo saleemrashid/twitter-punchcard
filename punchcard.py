@@ -60,8 +60,8 @@ def patches_for(api, id):
 
     for xy, count in counts.items():
         # These metrics need improving to allow cross-user comparisons
-        r = 0.4 * (count / maximum) + 0.05
-        alpha = 0.1 + 0.8 * math.log(count, maximum)
+        r = 0.4 * (count / maximum) + 0.1
+        alpha = 0.2 + 0.8 * math.log(count, maximum)
 
         yield matplotlib.patches.Circle(
             xy,
