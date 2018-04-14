@@ -31,7 +31,9 @@ def get_api_wrapper():
 
 def status_times_for(api, id):
     user = api.me() if id is None else api.get_user(id)
-    delta = datetime.timedelta(seconds=user.utc_offset)
+    utc_offset = user.utc_offset or 0
+
+    delta = datetime.timedelta(seconds=utc_offset)
 
     cursor = tweepy.Cursor(
         api.user_timeline,
