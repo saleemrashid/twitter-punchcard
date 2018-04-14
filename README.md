@@ -31,7 +31,7 @@ export TWITTER_CONSUMER_SECRET="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 export TWITTER_ACCESS_TOKEN="XXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 export TWITTER_ACCESS_TOKEN_SECRET="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 # Generate a PNG image for the authenticated user
-./main.py -o punchcard.png
+./punchcard.py -o punchcard.png
 # Generate a PNG image for @Twitter
-./main.py -o twitter.png Twitter
+./punchcard.py -o twitter.png Twitter
 ```
