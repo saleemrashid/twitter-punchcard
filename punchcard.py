@@ -10,14 +10,13 @@ import matplotlib.collections
 import matplotlib.patches
 
 
-# Not sure how to make this configurable
-FONT_FAMILY = "Source Sans Pro"
+DEFAULT_CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".tweepy_cache")
 
 DAYS_MAX = 7
 HOURS_MAX = 24
 
 
-def get_api_wrapper():
+def get_api_wrapper(cache_dir):
     auth = tweepy.OAuthHandler(
         os.environ["TWITTER_CONSUMER_KEY"],
         os.environ["TWITTER_CONSUMER_SECRET"]
@@ -26,7 +25,7 @@ def get_api_wrapper():
         os.environ["TWITTER_ACCESS_TOKEN"],
         os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
     )
-    return tweepy.API(auth)
+    return tweepy.API(auth, cache=tweepy.FileCache(cache_dir))
 
 
 def status_times_for(api, id):
@@ -73,10 +72,10 @@ def patches_for(api, id):
 
 def plot_punchcard(api, id, fig, ax):
     # Set axes ticks and labels
-    ax.set_xlim(-0.5, HOURS_MAX - 0.5)
-    ax.set_ylim(DAYS_MAX - 0.5, -0.5)
     ax.set_xticks(range(HOURS_MAX))
     ax.set_yticks(range(DAYS_MAX))
+    ax.set_xlim(-0.5, HOURS_MAX - 0.5)
+    ax.set_ylim(DAYS_MAX - 0.5, -0.5)
     ax.set_yticklabels(calendar.day_abbr)
 
     # Enable equal spacing for both axes
@@ -100,16 +99,21 @@ if __name__ == "__main__":
     import argparse
     import matplotlib.pyplot as plt
 
-    plt.rcParams["font.family"] = FONT_FAMILY
-
     parser = argparse.ArgumentParser()
     parser.add_argument("id", nargs="?",
                         help="ID or screen name of the user")
     parser.add_argument("-o", "--output", required=True,
                         type=argparse.FileType("wb"))
+    parser.add_argument("-C", "--cache-dir", default=DEFAULT_CACHE_DIR,
+                        help="Path to Tweepy cache directory")
+    parser.add_argument("-F", "--font-family",
+                        help="Font family for Matplotlib")
     args = parser.parse_args()
 
-    api = get_api_wrapper()
+    if args.font_family:
+        plt.rcParams["font.family"] = args.font_family
+
+    api = get_api_wrapper(args.cache_dir)
 
     fig, ax = plt.subplots()
     plot_punchcard(api, args.id, fig, ax)
