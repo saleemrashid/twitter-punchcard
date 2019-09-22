@@ -66,12 +66,24 @@ def patches_for(api, id):
         )
 
 
+def get_hour_ticklabels():
+    hours = [12, *range(1, 12)]
+
+    for meridiem in ("am", "pm"):
+        for i, hour in enumerate(hours):
+            if i % 6 == 0:
+                yield "{} {}".format(hour, meridiem)
+            else:
+                yield None
+
+
 def plot_punchcard(api, id, fig, ax):
     # Set axes ticks and labels
     ax.set_xticks(range(HOURS_MAX))
     ax.set_yticks(range(DAYS_MAX))
     ax.set_xlim(-0.5, HOURS_MAX - 0.5)
     ax.set_ylim(DAYS_MAX - 0.5, -0.5)
+    ax.set_xticklabels(get_hour_ticklabels())
     ax.set_yticklabels(calendar.day_abbr)
 
     # Enable equal spacing for both axes
