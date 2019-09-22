@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import calendar
 import collections
-import datetime
 import math
 import os
 import tweepy
@@ -30,9 +29,6 @@ def get_api_wrapper(cache_dir):
 
 def status_times_for(api, id):
     user = api.me() if id is None else api.get_user(id)
-    utc_offset = user.utc_offset or 0
-
-    delta = datetime.timedelta(seconds=utc_offset)
 
     cursor = tweepy.Cursor(
         api.user_timeline,
@@ -44,8 +40,8 @@ def status_times_for(api, id):
         trim_user=True,
         include_rts=False
     )
-    for status in cursor.items():
-        yield status.created_at + delta
+
+    return (status.created_at for status in cursor.items())
 
 
 def count_times(times):
