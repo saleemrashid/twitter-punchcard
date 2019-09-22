@@ -119,4 +119,4 @@ if __name__ == "__main__":
     plot_punchcard(api, args.id, fig, ax)
 
     plt.tight_layout()
-    plt.savefig(args.output, bbox_inches="tight")
+    plt.savefig(args.output, bbox_inches="tight", dpi=300)
